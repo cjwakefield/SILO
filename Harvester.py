@@ -1,6 +1,6 @@
 class Harvester(object): 
     def __init__(self):
-        pass
+        self.s = ""
 
     def get_data(self):
         pass

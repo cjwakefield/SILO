@@ -1,11 +1,11 @@
 import json
 import sys
 import argparse 
-from  Harvester import Harvester
-from  Harvester_Other import Harvester_Other
-from  Harvester_API import Harvester_API
-
 import socket
+
+import Harvester
+import Harvester_API
+import Harvester_Other
 
 class Silo(object):   
 
@@ -32,10 +32,12 @@ class Silo(object):
             self.ip = socket.gethostbyname(self.args.domain)   
         except:
             print("The Domain provided does not resolve\n")
+            exit(1)
 
         #add the needed harvesters
         if(self.args.active != 1):
-            self.harvesters.append(Harvester())
+            tmp =  Harvester.Harvester()
+            self.harvesters.append(tmp)
 
         self.Harvest() 
 
