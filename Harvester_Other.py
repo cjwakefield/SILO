@@ -8,4 +8,4 @@ class Harvester_Other(Harvester.Harvester):
         pass
 
     def __str__(self): 
-        pass
+        return ""

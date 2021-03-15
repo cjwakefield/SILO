@@ -6,6 +6,8 @@ import socket
 import Harvester
 import Harvester_API
 import Harvester_Other
+import Harvester_DNSDumpster
+
 
 class Silo(object):   
 
@@ -17,7 +19,7 @@ class Silo(object):
         parser = argparse.ArgumentParser(description='Silo')
         parser.add_argument("-v" ,"--verbosity", help="increase output verbosity")
         parser.add_argument("-a" ,"--active",action='store_true', help="active nmap scan of domain")
-        parser.add_argument("-d" ,"--domain", help="the doamin that will be scanned",required=True)
+        parser.add_argument("-d" ,"--domain", help="the doamin tha  t will be scanned",required=True)
 
         self.args = parser.parse_args()
         print(self.args)
@@ -39,11 +41,17 @@ class Silo(object):
             tmp =  Harvester.Harvester()
             self.harvesters.append(tmp)
 
-        self.Harvest() 
+        self.harvesters.append(Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain))
+
+        self.Harvest()
 
     def Harvest(self): 
         for harvester  in self.harvesters:
             harvester.get_data()
+        
+        for harvester  in self.harvesters:
+            print(harvester)
+
 
 
 if __name__ == "__main__":

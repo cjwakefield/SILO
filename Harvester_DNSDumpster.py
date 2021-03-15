@@ -1,10 +1,17 @@
 from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
-class Harvester_DNSDumpster(Harvest): 
+import Harvester
+class Harvester_DNSDumpster(Harvester.Harvester): 
     def __init__(self,domain):
         self.domain = domain 
 
     def get_data(self):
-        self.res =  DNSDumpsterAPI({'verbose': True}).search('microsoft.com')
+        self.res =  DNSDumpsterAPI().search(self.domain)
+        self.res.pop("image_data")
+        self.res.pop("xls_data")
+        #for ip in self.res
+              
+
+        #print(self.res )
 
     def __str__(self): 
-        print(res)
+        return str(self.res)

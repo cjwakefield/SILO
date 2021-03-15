@@ -6,5 +6,5 @@ class Harvester(object):
         pass
 
     def __str__(self): 
-        pass
+        return ""
 
