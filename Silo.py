@@ -4,9 +4,9 @@ import argparse
 import socket
 
 import Harvester
-import Harvester_API
-import Harvester_Other
+import Harvester_Nmap
 import Harvester_DNSDumpster
+
 
 
 class Silo(object):   
@@ -37,8 +37,8 @@ class Silo(object):
             exit(1)
 
         #add the needed harvesters
-        if(self.args.active != 1):
-            tmp =  Harvester.Harvester()
+        if(self.args.active == 1):
+            tmp =  Harvester_Nmap.Harvester_Nmap([self.args.domain])
             self.harvesters.append(tmp)
 
         self.harvesters.append(Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain))
@@ -46,7 +46,7 @@ class Silo(object):
         self.Harvest()
 
     def Harvest(self): 
-        for harvester  in self.harvesters:
+        for harvester in self.harvesters:
             harvester.get_data()
         
         for harvester  in self.harvesters:
