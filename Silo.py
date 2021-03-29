@@ -22,12 +22,12 @@ class Silo(object):
         parser.add_argument("-d" ,"--domain", help="the domain that will be scanned",required=True)
 
         self.args = parser.parse_args()
-        print(self.args)
+        #print(self.args)
 
         #get the API KEY
         with open('APIKEY.json') as f:
             self.keys = json.load(f)
-            print(self.keys)
+            #print(self.keys)
 
         #check to see if domain is up
         try:
@@ -36,13 +36,20 @@ class Silo(object):
             print("The Domain provided does not resolve\n")
             exit(1)
 
+        
+
+        Dns_Dumpster = Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain)
+        self.scanDomainList = Dns_Dumpster.formated_data()
+        self.harvesters.append(Dns_Dumpster)
+
         #add the needed harvesters
         if(self.args.active == 1):
             tmp =  Harvester_Nmap.Harvester_Nmap([self.args.domain])
-           #self.harvesters.append(tmp)
+            self.harvesters.append(tmp)
 
-        #self.harvesters.append(Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain))
-        self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain))
+        if self.keys["API_HUNTER"] != "":
+            #self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
+            pass
 
         self.Harvest()
 

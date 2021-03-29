@@ -4,6 +4,7 @@ import Harvester
 class Harvester_DNSDumpster(Harvester.Harvester): 
     def __init__(self,domain):
         self.domain = domain 
+        self.get_data()
 
     def get_data(self):
         self.res =  DNSDumpsterAPI().search(self.domain)
@@ -13,11 +14,15 @@ class Harvester_DNSDumpster(Harvester.Harvester):
               
 
         #print(self.res )
-    def formated_data(self): #printed data
-        return str(self)
+    def formated_data(self): #the formated data that can be used by python
+        domainlist = self.res.get("dns_records").get("host")
+        returnlist = []
+        for domain in domainlist: 
+            returnlist.append(domain.get("domain"))
+        return returnlist
     
-    def structured_data(self): #  the to str
-        return str(self)
+    def structured_data(self): #the data formated to be printed to the terminal
+        return str(self.formated_data())
 
     def __str__(self): 
-        return str(self.res)
+        return str(self.structured_data())
