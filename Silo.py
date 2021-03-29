@@ -7,7 +7,7 @@ import Harvester
 import Harvester_Nmap
 import Harvester_DNSDumpster
 import Harvester_Email
-
+import Harvester_GitHub
 
 class Silo(object):   
 
@@ -47,9 +47,13 @@ class Silo(object):
             tmp =  Harvester_Nmap.Harvester_Nmap([self.args.domain])
             self.harvesters.append(tmp)
 
-        if self.keys["API_HUNTER"] != "":
-            #self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
+        if self.keys.get("API_HUNTER") != "":
+            self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
             pass
+
+        if self.keys.get("API_KEY_GIT_HUB") != "":
+            self.harvesters.append(Harvester_GitHub.Harvester_GitHub(self.args.domain , self.keys.get("API_KEY_GIT_HUB")))
+            pass 
 
         self.Harvest()
 
@@ -59,6 +63,7 @@ class Silo(object):
         
         for harvester  in self.harvesters:
             print(harvester)
+            print("\n")
 
 
 
