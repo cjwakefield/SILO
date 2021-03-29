@@ -2,5 +2,6 @@
   "API_KEY_GIT_HUB" : "",
   "API_KEY_SHODAN" : "", 
   "API_KEY_LINKED_IN" : "",
-  "API_KEY_" : ""
+  "API_KEY_" : "",
+  "API_HUNTER" : "test"
 }

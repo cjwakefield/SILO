@@ -5,16 +5,19 @@ class Harvester_Nmap(Harvester.Harvester):
         self.domainlist = domainlist
         self.nmap = nmap.PortScanner()
 
-    def get_data(self):
+    def get_data(self, ports='21-443'):
         for domain in self.domainlist:
-            self.nmap.scan(domain, '22-443')
+            self.nmap.scan(domain, ports)
 
     def formated_data(self):
-        return str(self.nmap["127.0.0.1"])
+        for domain in self.domainlist:
+            return str(self.nmap[domain])
     
     def structured_data(self):
-        return str(self.nmap["127.0.0.1"])
+        return str(self)
 
     def __str__(self): 
-        return str(self.nmap["127.0.0.1"])
+        return str([str(self.nmap[domain]) for domain in self.domainlist])#look up documentaion
+        #for domain in self.domainlist:
+        #    return str(self.nmap[domain])
 
