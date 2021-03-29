@@ -1,34 +1,15 @@
 import Harvester
-from extract_emails import EmailExtractor
-from extract_emails.browsers import ChromeBrowser
-from googlesearch import search
-from bs4 import BeautifulSoup
-import urllib
-import re
-import theharvester
+from pyhunter import PyHunter
 
 class Harvester_Email(Harvester.Harvester): 
-    def __init__(self,domain):
+    def __init__(self,domain,API_KEY):
+        self.hunter = PyHunter(API_KEY)
         self.domain = domain
-
-    def get_email(self, url):
-        try:
-            thepage = urllib.request.urlopen(url)
-            list = []
-            if(thepage.getcode() == 200):
-                    regx = "[a-z0-9]+@" + self.domain
-                    list = re.findall(regx, str(thepage.read().decode("utf-8")) )
-        except ValueError:
-            list = []
-        
-        return list
+       
 
     def get_data(self):
-        q = "intext:\"*@"+self.domain+"\""
-        for result in search(q, num=10, stop=10, pause=2):
-            print(result)
-            print(str(self.get_email(result)))
-        
+       self.out = self.hunter.domain_search(company=self.domain, limit=5, offset=2)
+       return out
 
     def formated_data(self):
         return str(self)
