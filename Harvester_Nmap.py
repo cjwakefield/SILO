@@ -6,7 +6,7 @@ class Harvester_Nmap(Harvester.Harvester):
         self.nmap = nmap.PortScanner()
         self.get_data()
         
-    def get_data(self, ports='21-443'):#needs to fix
+    def get_data(self, ports='21-443'):
         for domain in self.domainlist:
             self.nmap.scan(domain, ports)
 

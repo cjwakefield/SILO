@@ -18,7 +18,7 @@ class Silo(object):
         #get the CMD arguemnts
         parser = argparse.ArgumentParser(description='Silo')
         parser.add_argument("-v" ,"--verbosity", help="increase output verbosity")
-        parser.add_argument("-a" ,"--active",action='store_true', help="active nmap scan of domain")
+        parser.add_argument("-a" ,"--active",action='store_true', help="active nmap scan of domain")# add a al flag that goes off of a and will scan every domain
         parser.add_argument("-d" ,"--domain", help="the domain that will be scanned",required=True)
 
         self.args = parser.parse_args()

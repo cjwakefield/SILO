@@ -7,8 +7,8 @@ class Harvester_Email(Harvester.Harvester):
         self.domain = domain
         self.get_data()       
 
-    def get_data(self):
-       self.json = self.hunter.domain_search(company=self.domain, limit=5, offset=2)
+    def get_data(self,limit=5, offset=2):
+       self.json = self.hunter.domain_search(company=self.domain, limit=self.limit, offset=self.offset) # pass in the limit and offset
 
     def formated_data(self):
         return self.json
