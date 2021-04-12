@@ -30,6 +30,7 @@ class Harvester_DNSDumpster(Harvester.Harvester):
         for row in self.formated_data():
             table.add_row(row)
         console.print(table)
+        return ""
 
     def __str__(self): 
         return str(self.formated_data())

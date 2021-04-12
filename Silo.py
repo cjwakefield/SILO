@@ -44,11 +44,13 @@ class Silo(object):
         self.Harvest()
 
     def Append_Harvester_Lists(self):
+
+        if self.keys.get("API_KEY_IPSTACK") != "":
+            self.harvesters.append(Harvester_Ipstack.Harvester_Ipstack(self.args.domain , self.keys.get("API_KEY_IPSTACK")))
+
         Dns_Dumpster = Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain)
         self.scanDomainList = Dns_Dumpster.formated_data()
         self.harvesters.append(Dns_Dumpster)
-
-        self.harvesters.append(Harvester_Ipstack.Harvester_Ipstack(self.args.domain , self.keys.get("API_KEY_IPSTACK")))
 
         #add the needed harvesters
         if(self.args.active == 1):
@@ -57,7 +59,7 @@ class Silo(object):
 
         if self.keys.get("API_HUNTER") != "":
             self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
-            
+               
 
         if self.keys.get("API_KEY_GIT_HUB") != "":
             self.harvesters.append(Harvester_GitHub.Harvester_GitHub(self.args.domain , self.keys.get("API_KEY_GIT_HUB")))
