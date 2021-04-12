@@ -36,8 +36,12 @@ class Silo(object):
             print("The Domain provided does not resolve\n")
             exit(1)
 
-        
+        #append the harvesters based of the argument inputs
+        self.Append_Harvester_Lists()
+        #go out and harvest the data
+        self.Harvest()
 
+    def Append_Harvester_Lists(self):
         Dns_Dumpster = Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain)
         self.scanDomainList = Dns_Dumpster.formated_data()
         self.harvesters.append(Dns_Dumpster)
@@ -49,14 +53,11 @@ class Silo(object):
 
         if self.keys.get("API_HUNTER") != "":
             self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
-            pass
+            
 
         if self.keys.get("API_KEY_GIT_HUB") != "":
             self.harvesters.append(Harvester_GitHub.Harvester_GitHub(self.args.domain , self.keys.get("API_KEY_GIT_HUB")))
-            pass 
-
-        self.Harvest()
-
+             
     def Harvest(self): 
         for harvester in self.harvesters:
             harvester.get_data()
