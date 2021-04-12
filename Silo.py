@@ -2,12 +2,14 @@ import json
 import sys
 import argparse 
 import socket
+from rich.console import Console
 
 import Harvester
 import Harvester_Nmap
 import Harvester_DNSDumpster
 import Harvester_Email
 import Harvester_GitHub
+import Harvester_Ipstack
 
 class Silo(object):   
 
@@ -46,6 +48,8 @@ class Silo(object):
         self.scanDomainList = Dns_Dumpster.formated_data()
         self.harvesters.append(Dns_Dumpster)
 
+        self.harvesters.append(Harvester_Ipstack.Harvester_Ipstack(self.args.domain , self.keys.get("API_KEY_IPSTACK")))
+
         #add the needed harvesters
         if(self.args.active == 1):
             tmp =  Harvester_Nmap.Harvester_Nmap([self.args.domain])
@@ -59,13 +63,13 @@ class Silo(object):
             self.harvesters.append(Harvester_GitHub.Harvester_GitHub(self.args.domain , self.keys.get("API_KEY_GIT_HUB")))
              
     def Harvest(self): 
+        console = Console()
         for harvester in self.harvesters:
             harvester.get_data()
         
         for harvester  in self.harvesters:
-            print(harvester)
-            print("\n")
-
+            print(harvester.structured_data())
+            #harvester.structured_data(); 
 
 
 if __name__ == "__main__":

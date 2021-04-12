@@ -1,5 +1,6 @@
 import nmap 
 import Harvester
+import rich
 class Harvester_Nmap(Harvester.Harvester): 
     def __init__(self,domainlist):
         self.domainlist = domainlist
