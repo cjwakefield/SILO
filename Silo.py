@@ -19,8 +19,8 @@ class Silo(object):
 
         #get the CMD arguemnts
         parser = argparse.ArgumentParser(description='Silo')
-        parser.add_argument("-v" ,"--verbosity", help="increase output verbosity")
-        parser.add_argument("-a" ,"--active",action='store_true', help="active nmap scan of domain")# add a al flag that goes off of a and will scan every domain
+        parser.add_argument('-v','--verbose', action='count', default=0,help="increase output verbosity")
+        parser.add_argument("-a" ,"--active",action='store_true', help="active nmap scan of domain")# add a al flag that goes off of a and will scan every domain #check docs
         parser.add_argument("-d" ,"--domain", help="the domain that will be scanned",required=True)
 
         self.args = parser.parse_args()
@@ -31,21 +31,23 @@ class Silo(object):
             self.keys = json.load(f)
             #print(self.keys)
 
+            # add error and put in try catch
+
         #check to see if domain is up
         try:
             self.ip = socket.gethostbyname(self.args.domain)   
         except:
-            print("The Domain provided does not resolve\n")
+            print("The domain provided does not resolve\n")
             exit(1)
 
         #append the harvesters based of the argument inputs
-        self.Append_Harvester_Lists()
+        self.Construct_Harvester_Lists()
         #go out and harvest the data
         self.Harvest()
 
-    def Append_Harvester_Lists(self):
+    def Construct_Harvester_Lists(self):
 
-        if self.keys.get("API_KEY_IPSTACK") != "":
+        if self.keys.get("API_KEY_IPSTACK") != "":# make more robust
             self.harvesters.append(Harvester_Ipstack.Harvester_Ipstack(self.args.domain , self.keys.get("API_KEY_IPSTACK")))
 
         Dns_Dumpster = Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain)
@@ -56,12 +58,12 @@ class Silo(object):
         if(self.args.active == 1):
             tmp =  Harvester_Nmap.Harvester_Nmap([self.args.domain])
             self.harvesters.append(tmp)
-
-        if self.keys.get("API_HUNTER") != "":
+        
+        if self.keys.get("API_HUNTER") != "": # make more robust
             self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
                
 
-        if self.keys.get("API_KEY_GIT_HUB") != "":
+        if self.keys.get("API_KEY_GIT_HUB") != "":# make more robust
             self.harvesters.append(Harvester_GitHub.Harvester_GitHub(self.args.domain , self.keys.get("API_KEY_GIT_HUB")))
              
     def Harvest(self): 

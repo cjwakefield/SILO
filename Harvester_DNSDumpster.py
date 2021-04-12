@@ -16,6 +16,8 @@ class Harvester_DNSDumpster(Harvester.Harvester):
               
 
         #print(self.res )
+
+    # swap the names     
     def formated_data(self): #the formated data that can be used by python
         domainlist = self.res.get("dns_records").get("host")
         returnlist = []
@@ -29,7 +31,7 @@ class Harvester_DNSDumpster(Harvester.Harvester):
         table.add_column("Sub Domains")
         for row in self.formated_data():
             table.add_row(row)
-        console.print(table)
+        console.print(table) # return the table and print that
         return ""
 
     def __str__(self): 
