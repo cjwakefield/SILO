@@ -1,6 +1,9 @@
 import nmap 
 import Harvester
-import rich
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+
 class Harvester_Nmap(Harvester.Harvester): 
     def __init__(self,domainlist):
         self.domainlist = domainlist
@@ -18,7 +21,9 @@ class Harvester_Nmap(Harvester.Harvester):
         return nmapList
     
     def structured_data(self):
-        return str(self)
+        for domain in self.nmap.all_hosts():
+            results = self.nmap[domain]
+        return Panel(str(results))
 
     def __str__(self): 
         #return str([str(self.nmap[domain]) for domain in self.domainlist])#look up documentaion

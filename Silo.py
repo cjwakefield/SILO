@@ -3,6 +3,7 @@ import sys
 import argparse 
 import socket
 from rich.console import Console
+from rich.table import Table
 
 import Harvester
 import Harvester_Nmap
@@ -47,7 +48,7 @@ class Silo(object):
 
     def Construct_Harvester_Lists(self):
 
-        if self.keys.get("API_KEY_IPSTACK") != "":# make more robust
+        if self.keys.get("API_KEY_IPSTACK") != None:# make more robust
             self.harvesters.append(Harvester_Ipstack.Harvester_Ipstack(self.args.domain , self.keys.get("API_KEY_IPSTACK")))
 
         Dns_Dumpster = Harvester_DNSDumpster.Harvester_DNSDumpster(self.args.domain)
@@ -59,11 +60,11 @@ class Silo(object):
             tmp =  Harvester_Nmap.Harvester_Nmap([self.args.domain])
             self.harvesters.append(tmp)
         
-        if self.keys.get("API_HUNTER") != "": # make more robust
+        if self.keys.get("API_HUNTER") != None: # make more robust
             self.harvesters.append(Harvester_Email.Harvester_Email(self.args.domain , self.keys.get("API_HUNTER")))
                
 
-        if self.keys.get("API_KEY_GIT_HUB") != "":# make more robust
+        if self.keys.get("API_KEY_GITHUB") != None:# make more robust
             self.harvesters.append(Harvester_GitHub.Harvester_GitHub(self.args.domain , self.keys.get("API_KEY_GIT_HUB")))
              
     def Harvest(self): 
@@ -72,9 +73,8 @@ class Silo(object):
             harvester.get_data()
         
         for harvester  in self.harvesters:
-            print(harvester.structured_data())
-            #harvester.structured_data(); 
-
+            console.print(harvester.structured_data())
+            #print (harvester.formated_data())
 
 if __name__ == "__main__":
    Silo()

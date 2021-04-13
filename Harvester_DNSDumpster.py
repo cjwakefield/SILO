@@ -27,12 +27,12 @@ class Harvester_DNSDumpster(Harvester.Harvester):
     
     def structured_data(self): #the data formated to be printed to the terminal 
         console = Console()
-        table = Table(show_header=True, header_style="bold green")
+        table = Table(title="DNS SubDomains" ,show_header=True, header_style="bold green")
         table.add_column("Sub Domains")
         for row in self.formated_data():
             table.add_row(row)
-        console.print(table) # return the table and print that
-        return ""
+        #console.print(table) # return the table and print that
+        return table
 
     def __str__(self): 
         return str(self.formated_data())
