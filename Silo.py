@@ -28,10 +28,13 @@ class Silo(object):
         #print(self.args)
 
         #get the API KEY
-        with open('APIKEY.json') as f:
-            self.keys = json.load(f)
-            #print(self.keys)
-
+        try:
+            with open('APIKEY.json') as f:
+                self.keys = json.load(f)
+            #print(self.keys)s
+        except:
+            print("APIKEY.json was not found\n")
+            exit(1)
             # add error and put in try catch
 
         #check to see if domain is up

@@ -9,7 +9,7 @@ class Harvester_Email(Harvester.Harvester):
         self.domain = domain
         self.get_data()       
 
-    def get_data(self,limit=5, offset=2):
+    def get_data(self,limit=5, offset=2):# add comment about nuber of results with the limit
        self.json = self.hunter.domain_search(company=self.domain, limit=limit, offset=offset) # pass in the limit and offset
 
     def formated_data(self):
@@ -24,7 +24,7 @@ class Harvester_Email(Harvester.Harvester):
         table.add_column("PhoneNumber")
         for email in emails:
             table.add_row(email.get("value"),email.get("first_name"),email.get("last_name"),email.get("phone_number"))
-        return table
+        return table 
 
     def __str__(self): 
         return str(self.structured_data())
